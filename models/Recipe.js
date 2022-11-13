@@ -21,21 +21,19 @@ const RecipeSchema = new mongoose.Schema(
       minlength: 3,
     },
     image: {
-      data: Buffer,
-      contentType: String
+      type: mongoose.Types.ObjectId,
+      ref: 'Image',
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
       required: [true, 'Please provide user'],
     },
-
     updatedBy: {
       type: mongoose.Types.ObjectId,
       ref: 'User',
       required: [true, 'Please provide user'],
     },
-
   },
   { timestamps: true, }
 )

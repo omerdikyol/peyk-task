@@ -15,6 +15,7 @@ const authenticateUser = require('./middleware/authentication');
 // routers
 const authRouter = require('./routes/auth');
 const recipesRouter = require('./routes/recipes');
+const uploadRouter = require('./routes/upload');
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 // routes
 app.use('/auth', authRouter);
 app.use('/recipes', authenticateUser, recipesRouter);
+app.use('/uploads', authenticateUser, uploadRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

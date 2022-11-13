@@ -2,7 +2,6 @@ const Recipe = require('../models/Recipe')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError } = require('../errors')
 const { decodeUser } = require('../utils/utils')
-const { uploadFiles, download } = require('../controllers/upload')
 
 const getAllRecipes = async (req, res) => {
   const recipes = await Recipe.find({}).sort('createdAt')
@@ -19,8 +18,8 @@ const getSingleRecipe = async (req, res) => {
 
 const addRecipe = async (req, res) => {
   const recipe = await Recipe.create({ title: req.body.title, ingredients: req.body.ingredients, description: req.body.description, createdBy: req.user._id, updatedBy: req.user._id })
-  await recipe.updateOne({ image: req.file.filename })
-  console.log(req)
+  // console.log(req)
+  console.log(recipe);
   res.status(StatusCodes.CREATED).json({ recipe })
 }
 
