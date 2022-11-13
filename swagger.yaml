@@ -1,0 +1,292 @@
+openapi: 3.0.0
+info:
+  title: Peyk Stajyer Task
+  contact: {}
+  version: '1.0'
+servers:
+- url: localhost:5000/
+  variables: {}
+paths:
+  /recipes:
+    get:
+      tags:
+      - Misc
+      summary: Get All Recipes
+      operationId: GetAllRecipes
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+    post:
+      tags:
+      - Misc
+      summary: Add Recipe
+      operationId: AddRecipe
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AddRecipeRequest'
+              - example:
+                  title: Food Name
+                  ingredients: Water, Salt, etc.
+                  description: Boil water and add salt in it.
+            example:
+              title: Food Name
+              ingredients: Water, Salt, etc.
+              description: Boil water and add salt in it.
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /recipes/{id}:
+    get:
+      tags:
+      - Misc
+      summary: Get Single Recipe
+      operationId: GetSingleRecipe
+      parameters:
+      - name: id
+        in: path
+        description: 'Recipe Id'
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+      - Misc
+      summary: Delete Recipe
+      operationId: DeleteRecipe
+      parameters:
+      - name: id
+        in: path
+        description: 'Recipe Id'
+        required: true
+        style: simple
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - oauth2: []
+    patch:
+      tags:
+      - Misc
+      summary: Edit Recipe
+      operationId: EditRecipe
+      parameters:
+      - name: id
+        in: path
+        description: 'Recipe Id'
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/EditRecipeRequest'
+              - example:
+                  title: New Title
+                  ingredients: New Ingredients
+                  description: New way
+            example:
+              title: New Title
+              ingredients: New Ingredients
+              description: New way
+              
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - oauth2: []
+  /uploads/image/{id}:
+    post:
+      tags:
+      - Misc
+      summary: Add Image to Recipe
+      operationId: AddImagetoRecipe
+      parameters:
+      - name: id
+        in: path
+        description: 'Recipe Id'
+        required: true
+        style: simple
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              required:
+              - image
+              type: object
+              properties:
+                image:
+                  type: string
+        required: false
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: Login User
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/LoginUserRequest'
+              - example:
+                  email: user@gmail.com
+                  password: secret123
+            example:
+              email: user@gmail.com
+              password: secret123
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Register User
+      operationId: RegisterUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/RegisterUserRequest'
+              - example:
+                  name: New User
+                  email: user@mail.com
+                  password: secretpass
+            example:
+              name: New User
+              email: user@mail.com
+              password: secretpass
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+components:
+  schemas:
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: user@gmail.com
+        password: secret123
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+      - name
+      - email
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: New User
+        email: user@mail.com
+        password: secretpass
+    AddRecipeRequest:
+      title: AddRecipeRequest
+      required:
+      - title
+      - ingredients
+      - description
+      type: object
+      properties:
+        title:
+          type: string
+        ingredients:
+          type: string
+        description:
+          type: string
+      example:
+        title: New Food
+        ingredients: New ingredients
+        description: New description
+    EditRecipeRequest:
+      title: EditRecipeRequest
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+      example:
+        title: New Title
+        description: New description
+        ingredients: New ingredients
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+    oauth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://localhost:5000//auth
+          scopes: {}
+security:
+- bearer: []
+tags:
+- name: Auth
+  description: ''
+- name: Misc
+  description: ''
